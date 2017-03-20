@@ -65,4 +65,4 @@ empirical	tests	that	compare	the	performance	of	your	algorithms	(including
 different temperatures	and	heuristics)	for	problems	of	increasing	size.
 You	will	be	evaluated	based	on	whether	you	have	working	implementations	of	the	
 algorithms	that	improve	over	simple	baseline	methods,	as	well	as	the	quality	of	your	
-testing	and	evaluation	of	the	performance	of	your	algorithms.		
+testing	and	evaluation	of	the	performance	of	your	algorithms.	
