@@ -1,11 +1,18 @@
 # AIproject2
+
 AI assignment 2
+
 CS	4320/5314
+
 Homework	Assignment	#2
+
 Search	for	Room	Scheduling
+
 DUE:	Sun,	March	26 at	11:59	PM
+
 Objective:	To	explore	the	use	of	different	search techniques for	solving	a complex
 optimization	problem.	
+
 Groups:	You	may	optionally	work	in	groups	of	two	(2) students	for	this	project.	
 The	Room	Scheduling Problem:
 The	scenario	you will	study	is	based	on	creating	a	schedule	that	assigns	courses	to	
