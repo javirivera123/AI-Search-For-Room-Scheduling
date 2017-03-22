@@ -1,4 +1,4 @@
-# AIproject2
+# Search For Room Scheduling
 
 AI assignment 2
 
