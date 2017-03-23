@@ -10,11 +10,11 @@ HW2: Scheduling
 ======
 
 	 CS 4320/5314: Artificial Intelligence, Spring 2017
-		Homework Assignment 2: Search	for	Room Scheduling
+	Homework Assignment 2: Search for Room Scheduling
 
-DUE: Sun,	March	26 at	11:59	PM
+DUE: Sun, March	26 at 11:59 PM
 
-Objective: To explore	the	use	of different search techniques for solving a complex
+Objective: To explore the use of different search techniques for solving a complex
 optimization problem.	
 
-Groups:	You	may	optionally	work	in	groups	of	two	(2) students	for	this	project.	
+Groups:	You may	optionally work	in groups of two (2) students for this	project.	
