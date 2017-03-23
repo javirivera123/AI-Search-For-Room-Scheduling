@@ -51,8 +51,12 @@ A solution is a mapping from rooms and time slots to courses. That is, each room
 
 The overall value of a schedule is calculated as follows: 
 
-	 - NEGATIVE_INFINITY if the schedule is invalid (e.g courses assigned multiple times to more than one 			room or time slot
-	 - The sum of the values and time slot bonuses for all courses assigned to valid rooms (rooms with a 			large enough capacity).
+	 - NEGATIVE_INFINITY if the schedule is invalid 
+	 (e.g courses assigned multiple times to more than one room or time slot).
+	 
+	 - The sum of the values and time slot bonuses for all courses assigned to 
+	 valid rooms (rooms with a large enough capacity).
+	 
 	 - Subtracting the sum of the penalties for scheduling courses away from their preferred building. 
 	
 You can find the exact definitions of these in the provided code. 
@@ -62,10 +66,23 @@ Your assignment:
 
 We have discussed many different search algorithims for problem solving, including BFS, DFS, iterative deepening, IDS, A*, Hill Climbing, simulated annealing and genetic algorithims. Your assignment is to implement and test two different search methods for solving this scheduling problem. 
 
-1) Impelment a simulated annealing algorithim for solving this problem, and experiement with different temperature settings.
+1) Impelment a simulated annealing algorithim for solving this problem, and experiement with different 		temperature settings.
 
 2) Implement backtracking search for constraint for solving this problem, including at least three heuristics for improving the search algorithim.
 
 For both of these algoirthims you should test the performance of your methods empirecally. For the simulated annealing approach you should show how different temperature setting affect the performance. For the CSP approach, you should know how each of the heuristics improves the performance of your algorithm.
 
+
+Deliverables:
+=======
+
+You will turn in two things:
+
+1) Your Java code for the project, including a jar file and instructions for running your code.
+
+2) A brief (2-4 pages) report describing the search methods you implmented and the results of
+	your performance testing. You must include data from empirical tests that compare the performance 
+	of your algoirthims (including different temperatures and heauristics) for problems of increasing size.
+	
+You will be evaluated based on whether you have working implemenetations of the algorithms that improve over simple baseline methods, as well as the quality of yoru testing and evaluation of the performance of your algorithms.
 
