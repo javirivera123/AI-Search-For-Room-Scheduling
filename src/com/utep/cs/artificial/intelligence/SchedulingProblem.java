@@ -90,7 +90,7 @@ public class SchedulingProblem {
         // indicates an unassigned time slot
         if (s[i][j] < 0 || s[i][j] > courses.size()) continue;
 
-        // class that hase been scheduled more than once
+        // class that has been scheduled more than once
         if (assigned[s[i][j]] > 0) {
           System.out.println("ERROR: Invalid schedule");
           return Double.NEGATIVE_INFINITY;

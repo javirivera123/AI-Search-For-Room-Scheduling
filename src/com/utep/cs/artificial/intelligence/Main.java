@@ -35,7 +35,6 @@ public class Main {
     System.out.println("Algorithm number: " + algorithm);
     System.out.println("Random seed: " + seed);
 
-
     SchedulingProblem test1 = new SchedulingProblem(seed);
     test1.createRandomInstance(nBuildings, nRooms, nCourses);
 
@@ -43,7 +42,7 @@ public class Main {
 
     long deadline = System.currentTimeMillis() + (1000 * TIME_LIMIT_SECONDS);
 
-    // Add your seach algorithms here, each with a unique number
+    // Add your search algorithms here, each with a unique number
     Schedule solution = null;
     if (algorithm == 0) {
       solution = search.naiveBaseline(test1, deadline);

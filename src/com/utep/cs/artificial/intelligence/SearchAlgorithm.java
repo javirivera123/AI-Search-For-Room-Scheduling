@@ -37,7 +37,6 @@ public class SearchAlgorithm {
         }
       }
     }
-
     return solution;
   }
 }
