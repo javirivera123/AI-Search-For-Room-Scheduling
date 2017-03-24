@@ -9,8 +9,7 @@ To view the main method for this assignment [Click Here](https://github.com/javi
 Contributors
 ======
 
-Javi Rivera 
-Oscar Ricaud
+Javi Rivera, Oscar Ricaud
 [Click Here for more info](https://github.com/javirivera123/AI-Search-For-Room-Scheduling/graphs/contributors)
 
 HW2: Scheduling
