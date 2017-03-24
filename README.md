@@ -6,6 +6,13 @@ AI-Search-For-Room-Scheduling
 
 To view the main method for this assignment [Click Here](https://github.com/javirivera123/AI-Search-For-Room-Scheduling/blob/master/src/com/utep/cs/Main/Main.java).
 
+Contributors
+======
+
+Javi Rivera 
+Oscar Ricaud
+[Click Here for more info](https://github.com/javirivera123/AI-Search-For-Room-Scheduling/graphs/contributors)
+
 HW2: Scheduling
 ======
 
