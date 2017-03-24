@@ -1,3 +1,5 @@
+package com.utep.cs.artificial.intelligence;
+
 import java.util.*;
 
 public class SchedulingProblem {

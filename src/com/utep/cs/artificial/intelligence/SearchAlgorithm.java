@@ -1,3 +1,5 @@
+package com.utep.cs.artificial.intelligence;
+
 public class SearchAlgorithm {
 
   // Your search algorithm should return a solution in the form of a valid

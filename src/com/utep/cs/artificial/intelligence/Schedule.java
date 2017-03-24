@@ -1,3 +1,5 @@
+package com.utep.cs.artificial.intelligence;
+
 public class Schedule {
   int[][] schedule;
 
