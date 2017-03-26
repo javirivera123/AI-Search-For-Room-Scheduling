@@ -37,7 +37,9 @@ public class SearchAlgorithm {
     return solution;
   }
 
-  private Schedule switchCourses(Schedule c) {
+  private Schedule switchCourses(Schedule currentSolution) {
+
+    return currentSolution;
   }
 
 
