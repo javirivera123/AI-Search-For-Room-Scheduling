@@ -20,8 +20,8 @@ public class SearchAlgorithm {
   public Schedule simulatedAnnealing(SchedulingProblem problem, long deadline) {
 
     Schedule currentSolution = naiveBaseline(problem, deadline);  // Begin with a random solution
-    double T = 1000000;                                      // Temperature
-    double randomNum = random(0, 1);
+    double T = 10;                                      // Temperature
+
     while(T > 0){                                       // Evaluate solutions until the temperature cools down
       double Ec = problem.evaluateSchedule(currentSolution);   // The energy for our random solution
       Schedule mutatedSolution = switchCourses(currentSolution);  // Switch 1 course to a random room & time slot
@@ -31,7 +31,7 @@ public class SearchAlgorithm {
         currentSolution = mutatedSolution;
       }
 
-      else if((Math.exp(deltaE/T)) > randomNum){ // If the solution is negative find the probability of the
+      else if((Math.exp(deltaE/T)) > random(0, 1)){ // If the solution is negative find the probability of the
         // solution
         // being
         currentSolution = mutatedSolution; // a good solution, if it is > 1 then swap solutions
