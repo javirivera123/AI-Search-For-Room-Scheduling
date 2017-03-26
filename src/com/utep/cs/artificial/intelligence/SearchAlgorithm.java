@@ -19,26 +19,28 @@ public class SearchAlgorithm {
 
   public Schedule simulatedAnnealing(SchedulingProblem problem, long deadline) {
 
-    Schedule currentSolution = naiveBaseline(problem, deadline);  // Begin with a random solution
-    double T = 10;                                      // Temperature
+    Schedule currentSolution= naiveBaseline(problem, deadline); // random solution
 
-    while(T > 0){                                       // Evaluate solutions until the temperature cools down
+    Schedule bestSolution = currentSolution;  // make random solution "best"
+    double T = 10000;                          // Temperature
+
+    while(T > 0){// Evaluate solutions until the temperature cools down
+      Schedule newRandSched = switchCourses(currentSolution); // //new schedule from current
       double Ec = problem.evaluateSchedule(currentSolution);   // The energy for our random solution
-      Schedule mutatedSolution = switchCourses(currentSolution);  // Switch 1 course to a random room & time slot
-      double En = problem.evaluateSchedule(mutatedSolution); // Evaluate this mutated solution
+      //Schedule mutatedSolution = switchCourses(newRandSched);  // Switch 1 course to a random room & time slot
+      double En = problem.evaluateSchedule(newRandSched); // Evaluate this mutated solution
       double deltaE = En - Ec;    // Measure the energy difference between the mutated solution and the current solution
-      if(deltaE > 0){ // If the difference is positive then swap solutions
-        currentSolution = mutatedSolution;
-      }
-
-      else if((Math.exp(deltaE/T)) > random(0, 1)){ // If the solution is negative find the probability of the
+       if((Math.exp(deltaE/T)) > random(0, 1)) { // If the solution is negative find the probability of the
         // solution
         // being
-        currentSolution = mutatedSolution; // a good solution, if it is > 1 then swap solutions
+        currentSolution = newRandSched; // a good solution, if it is > 1 then swap solutions
       }
-      T = T / 2; // Decrement the temperature by half
+      if(problem.evaluateSchedule(currentSolution) > problem.evaluateSchedule(bestSolution))
+        bestSolution = currentSolution;
+
+      T = T/2; // Decrement the temperature by half
     }
-    return currentSolution; // Return the solution
+    return bestSolution; // Return the solution
   }
 
   private double random(int Low, int High) {
