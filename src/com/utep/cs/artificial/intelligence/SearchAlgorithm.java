@@ -1,5 +1,7 @@
 package com.utep.cs.artificial.intelligence;
 
+import java.util.Random;
+
 public class SearchAlgorithm {
 
   // Your search algorithm should return a solution in the form of a valid
@@ -32,14 +34,58 @@ public class SearchAlgorithm {
       }
       T = T / 2; // Decrement the temperature by half
     }
-    return currentSolution; // Return the solution 
+    return currentSolution; // Return the solution
   }
 
   private Schedule switchCourses(Schedule currentSolution) {
+    Random r = new Random();
+
+    // Slot 1
+    int row = 0;
+    int column = 0;
+
+    // Slot 2
+    int row1 = 0;
+    int column1 = 0;
+
+    // Iterate through the two slots that we will be swapping
+    for(int slot = 0 ; slot < 2; slot++) {
+      // Find a random room
+      int Low = 0;
+      int High = currentSolution.schedule.length;
+      int randomRoom = r.nextInt(High-Low) + Low;
+      boolean courseIsFound = false;
+
+      // Iterate until you find a random course excluding values of -1
+      while (!courseIsFound) {
+        High = 10; // # of Time slots
+        int randomTimeSlot = r.nextInt(High - Low) + Low;
+
+        // We are picky for the first slot we are trying to swap, we must make sure the random slot we pick is filled
+        // and not contain a -1.
+        if ((slot == 0) & (currentSolution.schedule[randomRoom][randomTimeSlot] != -1)) {
+            row = randomRoom;
+            column = randomTimeSlot;
+            courseIsFound = true;
+
+        } else if((slot == 1) & (currentSolution.schedule[randomRoom][randomTimeSlot] != -1)) { // Only Gets called
+          // when we found slot 0.
+          row1 = randomRoom;
+          column1 = randomTimeSlot;
+          courseIsFound = true;
+        }
+      }
+    }
+    // Store temp courses
+    int tempCourse1 =  currentSolution.schedule[row][column];
+    int tempCourse2 = currentSolution.schedule[row1][column1];
+
+    // Do the swap here
+    currentSolution.schedule[row][column] = tempCourse2;
+    currentSolution.schedule[row1][column1] = tempCourse1;
 
     return currentSolution;
   }
-
 
   // This is a very naive baseline scheduling strategy
   // It should be easily beaten by any reasonable strategy

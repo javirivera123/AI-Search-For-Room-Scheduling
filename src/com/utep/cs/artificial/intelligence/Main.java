@@ -45,7 +45,8 @@ public class Main {
     // Add your search algorithms here, each with a unique number
     Schedule solution = null;
     if (algorithm == 0) {
-      solution = search.naiveBaseline(test1, deadline);
+      solution = search.simulatedAnnealing(test1, deadline);
+      // solution = search.naiveBaseline(test1, deadline);
     }
     else if(algorithm == 1){
     //  solution = search.simulatedAnnealing(test1, deadline);
