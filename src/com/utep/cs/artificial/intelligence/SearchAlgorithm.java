@@ -1,6 +1,7 @@
 package com.utep.cs.artificial.intelligence;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SearchAlgorithm {
 
@@ -19,8 +20,8 @@ public class SearchAlgorithm {
   public Schedule simulatedAnnealing(SchedulingProblem problem, long deadline) {
 
     Schedule currentSolution = naiveBaseline(problem, deadline);  // Begin with a random solution
-    double T = 1000;                                      // Temperature
-
+    double T = 1000000;                                      // Temperature
+    double randomNum = random(0, 1);
     while(T > 0){                                       // Evaluate solutions until the temperature cools down
       double Ec = problem.evaluateSchedule(currentSolution);   // The energy for our random solution
       Schedule mutatedSolution = switchCourses(currentSolution);  // Switch 1 course to a random room & time slot
@@ -29,12 +30,20 @@ public class SearchAlgorithm {
       if(deltaE > 0){ // If the difference is positive then swap solutions
         currentSolution = mutatedSolution;
       }
-      else if((Math.exp(deltaE/T)) > 1){ // If the solution is negative find the probability of the solution being
+
+      else if((Math.exp(deltaE/T)) > randomNum){ // If the solution is negative find the probability of the
+        // solution
+        // being
         currentSolution = mutatedSolution; // a good solution, if it is > 1 then swap solutions
       }
       T = T / 2; // Decrement the temperature by half
     }
     return currentSolution; // Return the solution
+  }
+
+  private double random(int Low, int High) {
+    double random = ThreadLocalRandom.current().nextDouble(Low, High);
+    return random;
   }
 
   private Schedule switchCourses(Schedule currentSolution) {
