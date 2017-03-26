@@ -8,11 +8,38 @@ public class SearchAlgorithm {
 
     // get an empty solution to start from
     Schedule solution = problem.getEmptySchedule();
-
     // YOUR CODE HERE
+
 
     return solution;
   }
+
+  public Schedule simulatedAnnealing(SchedulingProblem problem, long deadline) {
+
+    // get an empty solution to start from
+    Schedule solution = problem.getEmptySchedule();
+
+    solution = naiveBaseline(problem, deadline);
+    double T = 1000;
+    while(T > 0){
+      double Ec = problem.evaluateSchedule(solution);
+      Schedule mutatedSolution = switchCourses(solution);
+      double En = problem.evaluateSchedule(mutatedSolution);
+      double deltaE = En - Ec;
+      if(deltaE > 0){
+        solution = mutatedSolution;
+      }
+      else if((Math.exp(deltaE/T)) > 1){
+        solution = mutatedSolution;
+      }
+      T = T / 2;
+    }
+    return solution;
+  }
+
+  private Schedule switchCourses(Schedule c) {
+  }
+
 
   // This is a very naive baseline scheduling strategy
   // It should be easily beaten by any reasonable strategy

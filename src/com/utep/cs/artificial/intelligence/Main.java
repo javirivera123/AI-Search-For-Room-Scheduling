@@ -46,7 +46,11 @@ public class Main {
     Schedule solution = null;
     if (algorithm == 0) {
       solution = search.naiveBaseline(test1, deadline);
-    } else {
+    }
+    else if(algorithm == 1){
+    //  solution = search.simulatedAnnealing(test1, deadline);
+    }
+    else {
       System.out.println("ERROR: Given algorithm number does not exist!");
       System.exit(1);
     }
