@@ -23,10 +23,10 @@ public class SearchAlgorithm {
 
     // Create a mapping from "temperature" to "deadline"
     Map<Integer, Double> deadlineToTemperatureMap = new HashMap<Integer, Double>();
-    double temperature = 10000;
-      for (int i = 0; i <= 1000; i++) {
+    double temperature = 100;
+      for (int i = 0; i < 10; i++) {
         deadlineToTemperatureMap.put(i, temperature);
-        temperature = temperature - 20;
+        temperature = temperature - 10;
       }
       solutionFinal = simulatedAnnealing(problem, solution, deadlineToTemperatureMap);
     return solutionFinal;
@@ -39,7 +39,7 @@ public class SearchAlgorithm {
    * @return a solution state
    */
   public Schedule simulatedAnnealing(SchedulingProblem problem, Schedule schedule, Map<Integer, Double> map) {
-    double T = 100000000; // controls probability of downward steps
+    double T = 10; // controls probability of downward steps
 
     Schedule current = schedule; // Random solution schedule
     // Decrease temperature by 1 degree
@@ -60,10 +60,9 @@ public class SearchAlgorithm {
       // Find the value difference
       double deltaE = deltaNext - deltaCurr;
       double temperature = map.get(i);
-      System.out.println("temperature " + temperature);
+      System.out.println("temperateture " + temperature);
       if (deltaE > 0) {
         current = next;
-
       }
 
       // If the value difference is >= than a random value between 0 and 1 then,
@@ -72,7 +71,7 @@ public class SearchAlgorithm {
           current = next;
       }
       i++;
-      T = T /10;
+      T--;
     }
       return current;
   }
