@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+
 public class SearchAlgorithm {
 
 
@@ -34,46 +35,56 @@ public class SearchAlgorithm {
 
   /**
    * @param problem a random problem based on the arguments of # of buildings, rooms and courses
-   * @param schedule a mapping from time to "temperature"
-   * @param map
+   * @param
+   * @param map a mapping from time to "temperature"
    * @return a solution state
    */
-  public Schedule simulatedAnnealing(SchedulingProblem problem, Schedule schedule, Map<Integer, Double> map) {
+  public Schedule simulatedAnnealing(SchedulingProblem problem, Schedule scheduling, Map<Integer, Double> map) {
     double T = 10; // controls probability of downward steps
 
-    Schedule current = schedule; // Random solution schedule
+    //Schedule current = schedule; // Random solution schedule
     // Decrease temperature by 1 degree
     int i = 0;
-
+    SchedulingProblem problem1 = new SchedulingProblem(100);
+    problem1.createRandomInstance(1, 2, 4);
     while (T > 0) {
+      // Current Schedule
+      Schedule current = scheduling;
 
-      Schedule temp = current;
       // Evaluate the of current solution
       double deltaCurr = problem.evaluateSchedule(current);
 
-      // Modify the random solution
-      Schedule next = switchCourses(temp);
+      // Next random schedule
+      Schedule next = switchCourses(scheduling);
 
       // Evaluate the modified random solution
-      double deltaNext = problem.evaluateSchedule(next);
+      double deltaNext = problem1.evaluateSchedule(next);
 
       // Find the value difference
       double deltaE = deltaNext - deltaCurr;
-      double temperature = map.get(i);
-      System.out.println("temperateture " + temperature);
-      if (deltaE > 0) {
-        current = next;
-      }
 
+      // Get random double between 0 & 1.
+      double random = random(0, 1);
+
+      double temperature = map.get(i);
+      double energy = (Math.exp(deltaE / temperature));
+      System.out.println("temperateture " + temperature);
+
+      if (deltaE > 0) {
+        scheduling = next;
+      }
       // If the value difference is >= than a random value between 0 and 1 then,
       // Assign the current solution to the modified solution, since this solution is much better
-      else if (Math.exp(deltaE / temperature) >= random(0, 1)) {
-          current = next;
+      else if (energy >= random) {
+        scheduling = next;
+      }
+      else if ( energy < random){
+        scheduling = next;
       }
       i++;
       T--;
     }
-      return current;
+    return scheduling;
   }
 
   private double random(int Low, int High) {
@@ -82,7 +93,7 @@ public class SearchAlgorithm {
   }
 
   private Schedule switchCourses(Schedule currSolution) {
-    Random r = new Random();
+    Random r = new Random(100);
     Schedule tempSolution = currSolution;
     // Slot 1
     int row = 0;
