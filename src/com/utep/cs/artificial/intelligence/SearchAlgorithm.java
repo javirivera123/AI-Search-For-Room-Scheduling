@@ -1,46 +1,80 @@
 package com.utep.cs.artificial.intelligence;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SearchAlgorithm {
 
+
+
   // Your search algorithm should return a solution in the form of a valid
   // schedule before the deadline given (deadline is given by system time in ms)
   public Schedule solve(SchedulingProblem problem, long deadline) {
 
-    // get an empty solution to start from
+    // get an empty solution
     Schedule solution = problem.getEmptySchedule();
-    // YOUR CODE HERE
 
+    solution= naiveBaseline(problem, deadline); // random solution
 
-    return solution;
+    // final solution
+    Schedule solutionFinal = problem.getEmptySchedule();
+
+    // Create a mapping from "temperature" to "deadline"
+    Map<Integer, Double> deadlineToTemperatureMap = new HashMap<Integer, Double>();
+    double temperature = 10000;
+      for (int i = 0; i <= 1000; i++) {
+        deadlineToTemperatureMap.put(i, temperature);
+        temperature = temperature - 20;
+      }
+      solutionFinal = simulatedAnnealing(problem, solution, deadlineToTemperatureMap);
+    return solutionFinal;
   }
 
-  public Schedule simulatedAnnealing(SchedulingProblem problem, long deadline) {
+  /**
+   * @param problem a random problem based on the arguments of # of buildings, rooms and courses
+   * @param schedule a mapping from time to "temperature"
+   * @param map
+   * @return a solution state
+   */
+  public Schedule simulatedAnnealing(SchedulingProblem problem, Schedule schedule, Map<Integer, Double> map) {
+    double T = 100000000; // controls probability of downward steps
 
-    Schedule currentSolution= naiveBaseline(problem, deadline); // random solution
+    Schedule current = schedule; // Random solution schedule
+    // Decrease temperature by 1 degree
+    int i = 0;
 
-    Schedule bestSolution = currentSolution;  // make random solution "best"
-    double T = 10000;                          // Temperature
+    while (T > 0) {
 
-    while(T > 0){// Evaluate solutions until the temperature cools down
-      Schedule newRandSched = switchCourses(currentSolution); // //new schedule from current
-      double Ec = problem.evaluateSchedule(currentSolution);   // The energy for our random solution
-      //Schedule mutatedSolution = switchCourses(newRandSched);  // Switch 1 course to a random room & time slot
-      double En = problem.evaluateSchedule(newRandSched); // Evaluate this mutated solution
-      double deltaE = En - Ec;    // Measure the energy difference between the mutated solution and the current solution
-       if((Math.exp(deltaE/T)) > random(0, 1)) { // If the solution is negative find the probability of the
-        // solution
-        // being
-        currentSolution = newRandSched; // a good solution, if it is > 1 then swap solutions
+      Schedule temp = current;
+      // Evaluate the of current solution
+      double deltaCurr = problem.evaluateSchedule(current);
+
+      // Modify the random solution
+      Schedule next = switchCourses(temp);
+
+      // Evaluate the modified random solution
+      double deltaNext = problem.evaluateSchedule(next);
+
+      // Find the value difference
+      double deltaE = deltaNext - deltaCurr;
+      double temperature = map.get(i);
+      System.out.println("temperature " + temperature);
+      if (deltaE > 0) {
+        current = next;
+
       }
-      if(problem.evaluateSchedule(currentSolution) > problem.evaluateSchedule(bestSolution))
-        bestSolution = currentSolution;
 
-      T = T/2; // Decrement the temperature by half
+      // If the value difference is >= than a random value between 0 and 1 then,
+      // Assign the current solution to the modified solution, since this solution is much better
+      else if (Math.exp(deltaE / temperature) >= random(0, 1)) {
+          current = next;
+      }
+      i++;
+      T = T /10;
     }
-    return bestSolution; // Return the solution
+      return current;
   }
 
   private double random(int Low, int High) {
@@ -48,9 +82,9 @@ public class SearchAlgorithm {
     return random;
   }
 
-  private Schedule switchCourses(Schedule currentSolution) {
+  private Schedule switchCourses(Schedule currSolution) {
     Random r = new Random();
-
+    Schedule tempSolution = currSolution;
     // Slot 1
     int row = 0;
     int column = 0;
@@ -61,26 +95,28 @@ public class SearchAlgorithm {
 
     // Iterate through the two slots that we will be swapping
     for(int slot = 0 ; slot < 2; slot++) {
-      // Find a random room
-      int Low = 0;
-      int High = currentSolution.schedule.length;
-      int randomRoom = r.nextInt(High-Low) + Low;
       boolean courseIsFound = false;
-
       // Iterate until you find a random course excluding values of -1
       while (!courseIsFound) {
+        // Find a random room
+        int Low = 0;
+        int High = tempSolution.schedule.length;
+        int randomRoom = r.nextInt(High-Low) + Low;
         High = 10; // # of Time slots
         int randomTimeSlot = r.nextInt(High - Low) + Low;
 
         // We are picky for the first slot we are trying to swap, we must make sure the random slot we pick is filled
         // and not contain a -1.
-        if ((slot == 0) & (currentSolution.schedule[randomRoom][randomTimeSlot] != -1)) {
+        if ((slot == 0) & (tempSolution.schedule[randomRoom][randomTimeSlot] != -1)) {
             row = randomRoom;
             column = randomTimeSlot;
             courseIsFound = true;
 
-        } else if((slot == 1) & (currentSolution.schedule[randomRoom][randomTimeSlot] != -1)) { // Only Gets called
+        } else if((slot == 1)) { // Only Gets called
           // when we found slot 0.
+          Low = 0;
+          High = tempSolution.schedule.length;
+          randomRoom = r.nextInt(High-Low) + Low;
           row1 = randomRoom;
           column1 = randomTimeSlot;
           courseIsFound = true;
@@ -88,14 +124,14 @@ public class SearchAlgorithm {
       }
     }
     // Store temp courses
-    int tempCourse1 =  currentSolution.schedule[row][column];
-    int tempCourse2 = currentSolution.schedule[row1][column1];
+    int tempCourse1 =  tempSolution.schedule[row][column];
+    int tempCourse2 = tempSolution.schedule[row1][column1];
 
     // Do the swap here
-    currentSolution.schedule[row][column] = tempCourse2;
-    currentSolution.schedule[row1][column1] = tempCourse1;
+    tempSolution.schedule[row][column] = tempCourse2;
+    tempSolution.schedule[row1][column1] = tempCourse1;
 
-    return currentSolution;
+    return tempSolution;
   }
 
   // This is a very naive baseline scheduling strategy

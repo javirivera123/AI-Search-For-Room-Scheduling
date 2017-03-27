@@ -36,20 +36,24 @@ public class Main {
     System.out.println("Random seed: " + seed);
 
     SchedulingProblem test1 = new SchedulingProblem(seed);
+    SchedulingProblem test2 = new SchedulingProblem(seed);
+
     test1.createRandomInstance(nBuildings, nRooms, nCourses);
+    test2.createRandomInstance(nBuildings, nRooms, nCourses);
 
     SearchAlgorithm search = new SearchAlgorithm();
 
     long deadline = System.currentTimeMillis() + (1000 * TIME_LIMIT_SECONDS);
 
     // Add your search algorithms here, each with a unique number
-    Schedule naiveSolution = null;
+    Schedule solution = null;
     Schedule annealingSolution = null;
     if (algorithm == 0) {
-      naiveSolution = search.naiveBaseline(test1, deadline);
-      annealingSolution = search.simulatedAnnealing(test1, deadline);
+      solution = search.naiveBaseline(test1, deadline);
+      //annealingSolution = search.simulatedAnnealing(test1, deadline);
     }
     else if(algorithm == 1){
+      solution = search.solve(test1, deadline);
       // solution2 = search.simulatedAnnealing(test1, deadline);
     }
     else {
@@ -64,14 +68,15 @@ public class Main {
       System.out.println("EXCEEDED DEADLINE");
     }
 
-    double score = test1.evaluateSchedule(naiveSolution);
+    double score = test1.evaluateSchedule(solution);
     System.out.println();
-    System.out.println("Score for Naive: " + score);
+    System.out.println("Score: " + score);
     System.out.println();
 
-    double score2 = test1.evaluateSchedule(annealingSolution);
+    /*
+    double score2 = test2.evaluateSchedule(annealingSolution);
     System.out.println();
     System.out.println("Score for Annealing: " + score2);
-    System.out.println();
+    System.out.println();*/
   }  
 }
